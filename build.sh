@@ -1,46 +1,72 @@
 #!/usr/bin/env bash
+#=============================================================================
+#     FileName : build.sh
+#       Author : marslo.jiao@gmail.com
+#      Created : 2025-06-17 21:15:06
+#   LastChange : 2025-06-18 01:09:58
+#=============================================================================
 
 set -euo pipefail
 
-function clean() {
-  rm -f go.mod go.sum
-  rm -f mtui
-}
+declare -r APP_NAME="mtui"
+declare -r DIST_DIR="dist"
 
-function build() {
-  go mod init github.com/marslo/mtui
-  go get github.com/charmbracelet/bubbles
-  go get github.com/charmbracelet/bubbletea
-  go get github.com/charmbracelet/lipgloss
-  go get github.com/spf13/cobra
-
-  go mod tidy
-  go build -o mtui
-}
-
-usage="""
+declare usage="""
 USAGE
   \$ $0 [option]
 
 OPTIONS
-  -c, --clean       Run clean only
-  -b, --build       Run clean and then build
-  -h, --help        Show this help message
+  -c, --clean        Clean workspace
+  -b, --build        Clean and build for local (host) platform
+      --macos        Build for macOS (darwin/arm64)
+      --linux        Build for Linux  (linux/amd64)
+      --win          Build for Windows (windows/amd64)
+  -h, --help         Show this help
 """
 
-function showHelp() {
-  echo -e "${usage}"
+function showHelp() { echo -e "${usage}"; }
+
+function clean() {
+  rm -rf go.mod go.sum "${APP_NAME}" "${DIST_DIR}"
 }
+
+function build() {
+  [[ -d "${DIST_DIR}" ]] || mkdir -p "${DIST_DIR}"
+  go mod init github.com/marslo/mtui 2>/dev/null || true
+  go get github.com/charmbracelet/bubbles
+  go get github.com/charmbracelet/bubbletea
+  go get github.com/charmbracelet/lipgloss
+  go get github.com/spf13/cobra
+  go mod tidy
+  go build -o "${APP_NAME}"
+}
+
+function crossBuild() {
+  local goos="$1"
+  local goarch="$2"
+  local ext="${3:-}"
+  local output="${DIST_DIR}/${APP_NAME}-${goos}-${goarch}${ext}"
+
+  echo "Building ${output} ..."
+  GOOS="${goos}" GOARCH="${goarch}" go build -o "${output}"
+}
+
+function buildMac() { crossBuild darwin arm64; }
+function buildLinux() { crossBuild linux amd64; }
+function buildWindows() { crossBuild windows amd64 ".exe"; }
 
 function main() {
   [[ $# -eq 0 ]] && { clean && build; return $?; }
 
   while [[ $# -gt 0 ]]; do
-    case $1 in
-      -h | --help  ) showHelp                      ; return 0  ;;
-      -c | --clean ) clean                         ; return $? ;;
-      -b | --build ) clean && build                ; return $? ;;
-      *            ) echo "unknown option: $1" >&2 ; return 1  ;;
+    case "$1" in
+      -h | --help  ) showHelp                  ; return 0  ;;
+      -c | --clean ) clean                     ; return $? ;;
+      -b | --build ) clean && build            ; return $? ;;
+      --macos      ) buildMac                  ; return $? ;;
+      --linux      ) buildLinux                ; return $? ;;
+      --win        ) buildWindows              ; return $? ;;
+      *            ) echo "unknown option: $1" ; return 1  ;;
     esac
   done
 }

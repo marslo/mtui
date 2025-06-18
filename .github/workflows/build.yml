@@ -24,5 +24,11 @@ jobs:
       - name: show go version
         run: go version
 
-      - name: build mtui
+      - name: host build
         run: bash build.sh --build
+
+      - name: cross build (linux/darwin/win)
+        run: |
+          bash build.sh --macos
+          bash build.sh --linux
+          bash build.sh --win
