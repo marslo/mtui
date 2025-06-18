@@ -26,8 +26,3 @@ jobs:
 
       - name: build mtui
         run: bash build.sh --build
-
-      - name: release via semantic-release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npx semantic-release

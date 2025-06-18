@@ -1,5 +1,5 @@
 ---
-name: upload mtui to GitHub Release
+name: deploy mtui to GitHub Release
 
 on:
   push:
@@ -22,3 +22,13 @@ jobs:
 
       - name: build mtui
         run: bash build.sh --build
+
+      - name: check binary file
+        run: ls -lh mtui && file mtui
+
+      - name: deploy mtui binary to GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: mtui
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
