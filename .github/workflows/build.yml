@@ -1,5 +1,5 @@
 ---
-name: build mtui
+name: build and release mtui
 
 on:
   push:
@@ -19,9 +19,15 @@ jobs:
         uses: actions/setup-go@v5
         with:
           go-version: '1.24'
+          cache: false
 
       - name: show go version
         run: go version
 
-      - name: run build script
+      - name: build mtui
         run: bash build.sh --build
+
+      - name: release via semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npx semantic-release
