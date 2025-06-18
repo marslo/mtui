@@ -1,3 +1,15 @@
+# [2.0.0](https://github.com/marslo/mtui/compare/v1.1.0...v2.0.0) (2025-06-18)
+
+
+* feat(build)!: enhance the build script to support cross platform ([e6c7b6c](https://github.com/marslo/mtui/commit/e6c7b6cc1170ce685702b70e5fce7941d2c23258))
+
+
+### BREAKING CHANGES
+
+* to support cross platform artifacts
+
+Signed-off-by: marslo <marslo.jiao@gmail.com>
+
 # [1.1.0](https://github.com/marslo/mtui/compare/v1.0.1...v1.1.0) (2025-06-18)
 
 
