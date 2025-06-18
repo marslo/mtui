@@ -19,7 +19,7 @@ var (
 
 func init() {
   inputCmd.Flags().StringVar(&placeholder, "placeholder", "", "Placeholder text")
-  inputCmd.Flags().StringVar(&placeholderStyle, "placeholder-style", "italic", "Comma-separated placeholder style: bold,italic,faint,underline")
+  inputCmd.Flags().StringVar(&placeholderStyle, "placeholder-style", "italic,foreground=245", "Comma-separated placeholder style: bold,italic,faint,underline,strikethrough,foreground=<color>")
   inputCmd.Flags().StringVar(&inputStyle, "input-style", "bold", "Comma-separated input style")
 
   rootCmd.AddCommand(inputCmd)
@@ -102,17 +102,20 @@ func parseStyle(s string) lipgloss.Style {
   style := lipgloss.NewStyle()
   tokens := strings.Split(s, ",")
   for _, tok := range tokens {
-    switch strings.ToLower(strings.TrimSpace(tok)) {
-    case "bold":
+    tok = strings.TrimSpace(strings.ToLower(tok))
+    switch {
+    case tok == "bold":
       style = style.Bold(true)
-    case "italic":
+    case tok == "italic":
       style = style.Italic(true)
-    case "faint":
+    case tok == "faint":
       style = style.Faint(true)
-    case "underline":
+    case tok == "underline":
       style = style.Underline(true)
-    case "strikethrough":
+    case tok == "strikethrough":
       style = style.Strikethrough(true)
+    case strings.HasPrefix(tok, "foreground="):
+      style = style.Foreground(lipgloss.Color(strings.TrimPrefix(tok, "foreground=")))
     }
   }
   return style
