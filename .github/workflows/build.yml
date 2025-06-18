@@ -1,0 +1,27 @@
+---
+name: build mtui
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout source code
+        uses: actions/checkout@v4
+
+      - name: set up go environment
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.24'
+
+      - name: show go version
+        run: go version
+
+      - name: run build script
+        run: bash build.sh --build
