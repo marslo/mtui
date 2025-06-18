@@ -19,7 +19,7 @@ var (
 
 func init() {
   inputCmd.Flags().StringVar(&placeholder, "placeholder", "", "Placeholder text")
-  inputCmd.Flags().StringVar(&placeholderStyle, "placeholder-style", "italic,foreground=245", "Comma-separated placeholder style: bold,italic,faint,underline,strikethrough,foreground=<color>")
+  inputCmd.Flags().StringVar(&placeholderStyle, "placeholder-style", "italic,faint,foreground=245", "Comma-separated placeholder style: bold,italic,faint,underline,strikethrough,foreground=<color>")
   inputCmd.Flags().StringVar(&inputStyle, "input-style", "bold", "Comma-separated input style")
 
   rootCmd.AddCommand(inputCmd)
