@@ -2,7 +2,7 @@
 
 > ✨ A modern, customizable terminal UI toolkit for input and confirmation prompts, built with [Bubbletea](https://github.com/charmbracelet/bubbletea)
 
-Terminal UI prompts with customizable placeholder styling, powered by Bubbletea
+Terminal UI prompts with customizable placeholder styling, powered by [@Bubbletea](https://github.com/charmbracelet/bubbletea)
 
 `mtui` provides beautiful CLI prompts with keyboard interaction, placeholder support, and stylable input fields — perfect for Git hooks, scripts, or standalone tools.
 
@@ -65,8 +65,8 @@ cd mtui
 
 ### `input` Command
 
-| Flag                  | Description                                   |
-| --------------------- | --------------------------------------------- |
+| FLAG                  | DESCRIPTION                                   |
+|-----------------------|-----------------------------------------------|
 | `--placeholder`       | Text shown as placeholder when input is empty |
 | `--placeholder-style` | Comma-separated style keywords (see below)    |
 | `--input-style`       | Comma-separated style for input text          |
@@ -75,8 +75,8 @@ Supported style values: `bold`, `italic`, `faint`, `underline`, `strikethrough`,
 
 ### `confirm` Command
 
-| Flag        | Description                     |
-| ----------- | ------------------------------- |
+| FLAG        | DESCRIPTION                     |
+|-------------|---------------------------------|
 | `--message` | Prompt message for confirmation |
 
 ---
